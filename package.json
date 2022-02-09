@@ -1,0 +1,20 @@
+{
+  "name": "near-utilities",
+  "version": "1.0.0",
+  "description": "Near utilities",
+  "scripts": {
+    "prepare": "tsc"
+  },
+  "type": "module",
+  "author": "Lautaro C",
+  "dependencies": {
+    "bn.js": "^5.2.0",
+    "near-api-js": "^0.43.1",
+    "js-utils": "git+ssh://git@github.com:lau-bin/js-utils.git"
+  },
+  "devDependencies": {
+    "@types/bn.js": "^5.1.0",
+    "@types/node": "14.14.31",
+    "typescript": "^4.6.0-dev.20220203"
+  }
+}
