@@ -1,6 +1,6 @@
 {
   "name": "near-utilities",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Near utilities",
   "scripts": {
     "prepare": "tsc"
@@ -10,7 +10,7 @@
   "dependencies": {
     "bn.js": "^5.2.0",
     "near-api-js": "^0.43.1",
-    "js-utils": "git+ssh://git@github.com:lau-bin/js-utils.git"
+    "js-utils": "git+ssh://git@github.com:lau-bin/js-utils.git#1.0.0"
   },
   "devDependencies": {
     "@types/bn.js": "^5.1.0",
