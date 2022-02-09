@@ -1,6 +1,6 @@
 {
   "name": "near-utils",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Near utilities",
   "scripts": {
     "prepare": "tsc"
