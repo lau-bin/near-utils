@@ -5,6 +5,7 @@
   "scripts": {
     "prepare": "tsc"
   },
+  "main": "out/index.js",
   "type": "module",
   "author": "Lautaro C",
   "dependencies": {
