@@ -1,6 +1,6 @@
 import BN from "bn.js"
 import { Account } from "near-api-js"
-import {getTransactionLastResult, FinalExecutionStatus} from "near-api-js/lib/providers/provider"
+import {getTransactionLastResult, FinalExecutionStatus, FinalExecutionOutcome} from "near-api-js/lib/providers/provider"
 import {asConst, hasValue, isString} from "js-utils"
 
 export class Contract<T extends _ContractSpec, S extends Account | string> {
@@ -8,7 +8,7 @@ export class Contract<T extends _ContractSpec, S extends Account | string> {
   accountId: string
   account: S extends Account ? Account : null
   view: Record<T["viewMethods"][number], (account: S extends Account ? Account | null : Account, args?:Object)=> Promise<any>> = {} as any
-  call: Record<T["changeMethods"][number], (account: S extends Account ? Account | null : Account, args?:Object, gas?:BN, attachedDeposit?:BN)=> Promise<any>> = {} as any
+  call: Record<T["changeMethods"][number], (account: S extends Account ? Account | null : Account, args?:Object, gas?:BN, attachedDeposit?:BN)=> Promise<FinalExecutionOutcome> > = {} as any
   name: string
   spec: T
 
