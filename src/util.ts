@@ -1,4 +1,4 @@
-function areEqualShallow(a, b) {
+function areEqualShallow(a: any, b: any) {
   for (var key in a) {
     if (!(key in b) || a[key] !== b[key]) {
       return false;
@@ -11,7 +11,7 @@ function areEqualShallow(a, b) {
   }
   return true;
 }
-function allPropsEqual(a, b) {
+function allPropsEqual(a: any, b: any) {
   for (var key in a) {
     if ((key in b) && a[key] !== b[key]) {
       return false;
@@ -20,12 +20,12 @@ function allPropsEqual(a, b) {
   return true;
 }
 
-function* times(x) {
+function* times(x: any) {
   for (var i = 0; i < x; i++)
     yield i;
 }
 
-export function replacer(key, value) {
+export function replacer(key: any, value: any) {
   if(value instanceof Map) {
     return Object.fromEntries(value.entries())
   } else {
