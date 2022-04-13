@@ -2,7 +2,6 @@ import BN from "bn.js"
 import { Account } from "near-api-js"
 import {getTransactionLastResult, FinalExecutionStatus, FinalExecutionOutcome} from "near-api-js/lib/providers/provider"
 import {asConst, hasValue, isString} from "js-utils"
-import { AnyTxtRecord } from "dns"
 
 export class Contract<T extends _ContractSpec, S extends Account | string> {
 

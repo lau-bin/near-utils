@@ -1,12 +1,11 @@
 {
   "name": "near-utils",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "description": "Near utilities",
   "scripts": {
     "prepare": "tsc"
   },
   "main": "out/index.js",
-  "type": "module",
   "author": "Lautaro C",
   "dependencies": {
     "bn.js": "^5.2.0",
