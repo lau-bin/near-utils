@@ -104,9 +104,9 @@ export async function getKeyPairOfAcc(accountId: string, connection: NearConncet
   return await connection.keyStore.getKey(connection.networkId, accountId)
 }
 
-export async function deployContract(contractAccount: Account, contract: _ContractSpec) {
-  await contractAccount.deployContract(readFileSync(path.join(__dirname, "res", contract.wasmName)))
-  let msg = `contract ${contract.name} deployed at ${contractAccount.accountId}`
+export async function deployContract(contractAccount: Account, contract: string) {
+  await contractAccount.deployContract(readFileSync(contract))
+  let msg = `contract deployed at ${contractAccount.accountId}`
   Logger.info(msg, true)
 }
 
