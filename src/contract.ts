@@ -3,12 +3,12 @@ import { Account } from "near-api-js"
 import {getTransactionLastResult, FinalExecutionStatus, FinalExecutionOutcome} from "near-api-js/lib/providers/provider"
 import {asConst, hasValue, isString} from "js-utils"
 
-export class Contract<T extends _ContractSpec, S extends Account | string> {
+export class Contract<T extends ContractSpec, S extends Account | string> {
 
   accountId: string
   account: S extends Account ? Account : null
-  view: Record<T["viewMethods"][number]["name"], (account: S extends Account ? Account | null : Account, args?:T["viewMethods"][number]["args"])=> Promise<T["viewMethods"][number]["returnValue"]>> = {} as any
-  call: Record<T["changeMethods"][number]["name"], (account: S extends Account ? Account | null : Account, args?:T["changeMethods"][number]["args"], gas?:BN, attachedDeposit?:BN)=> Promise<FinalExecutionOutcome>> = {} as any
+  view: {[key in keyof T["viewMethods"]]:(account: S extends Account ? Account | null : Account, args?:T["viewMethods"][key]["args"])=> Promise<T["viewMethods"][key]["returnValue"]>} = {} as any
+  call: {[key in keyof T["changeMethods"]]:(account: S extends Account ? Account | null : Account, args?:T["changeMethods"][key]["args"], gas?:BN, attachedDeposit?:BN)=> Promise<FinalExecutionOutcome>} = {} as any
   name: string
   spec: T
 
@@ -23,11 +23,11 @@ export class Contract<T extends _ContractSpec, S extends Account | string> {
       this.accountId = accountOrId
       this.account = null as any
     }
-    contractSpec.changeMethods.forEach(methodName=>{
+    Object.keys(contractSpec.changeMethods).forEach(methodName=>{
       const fun = async (account?: Account, args?:Object, gas:BN = new BN(300000000000000), attachedDeposit:BN = new BN(0))=>{
         const element = {
           contractId: this.accountId,
-          methodName: methodName.name,
+          methodName: methodName,
           args: args ?? {},
           gas,
           attachedDeposit
@@ -36,19 +36,19 @@ export class Contract<T extends _ContractSpec, S extends Account | string> {
         return await caller.functionCall(element);
       }
       
-      Object.defineProperty(this.call, methodName.name, {
+      Object.defineProperty(this.call, methodName, {
         writable: false,
         enumerable: true,
         value: fun
       })
     })
 
-    contractSpec.viewMethods.forEach(methodName=>{
+    Object.keys(contractSpec.viewMethods).forEach(methodName=>{
       const fun = async (account?: Account, args?:Object)=>{
         let caller = hasValue(account) ? account : this.account as Account
-        return await caller.viewFunction(this.accountId, methodName.name, args);
+        return await caller.viewFunction(this.accountId, methodName, args);
       }
-      Object.defineProperty(this.view, methodName.name, {
+      Object.defineProperty(this.view, methodName, {
         writable: false,
         enumerable: true,
         value: fun
@@ -57,16 +57,16 @@ export class Contract<T extends _ContractSpec, S extends Account | string> {
   }
 }
 
-export type _ContractSpec = {
-  changeMethods: readonly CtrMethodDefinition<any, any>[]
-  viewMethods: readonly CtrMethodDefinition<any, any>[]
+export type ContractSpec = {
+  changeMethods: CtrMethodDefinition
+  viewMethods: CtrMethodDefinition
   wasmName: string
   name: string
 }
-export const ContractSpec = (() => asConst<_ContractSpec>())()
- 
-export type CtrMethodDefinition<T extends Object, R extends any> = {
-  name: string,
-  args: T,
-  returnValue: R
+
+export type CtrMethodDefinition = {
+  [p: string]: {
+    args: any,
+    returnValue: any
+  }
 }
