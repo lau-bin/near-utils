@@ -1,6 +1,6 @@
 import {readFileSync, writeFileSync} from "fs"
 import path from "path"
-import { isObject, isString, JSONPrettify } from "js-utils"
+import { isObject, isString, JSONPrettify, makeEnumerable } from "js-utils"
 import { replacer } from "./util"
 
 
@@ -45,7 +45,7 @@ export class Logger{
       }
     }
     else if (isObject(msg)){
-      message = JSONPrettify(msg, replacer)
+      message = JSONPrettify(makeEnumerable(msg), replacer)
     }
     else if (Array.isArray(msg)){
       message = JSONPrettify(msg, replacer)
