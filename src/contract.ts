@@ -71,4 +71,6 @@ export type CtrMethodDefinition = {
   }
 }
 
-export declare function asCtrSpec<T extends ContractSpec>(spec:T):T
+export function asCtrSpec<T extends ContractSpec>(spec:T):T{
+  return spec
+}
